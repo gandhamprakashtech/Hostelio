@@ -1,165 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hostelio - User Login</title>
-  <style>
-    /* Your same CSS (unchanged) */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .form-container {
-      background-color: #ffffff;
-      padding: 30px 40px;
-      border-radius: 10px;
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #00796b;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-    label {
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: #333;
-    }
-    input {
-      margin-bottom: 16px;
-      padding: 10px 12px;
-      font-size: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      background-color: #f9f9f9;
-    }
-    input:focus {
-      outline: none;
-      border-color: #00796b;
-      background-color: #fff;
-    }
-    button {
-      background-color: #00796b;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #004d40;
-    }
-    .login-link {
-      text-align: center;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-    .login-link a {
-      color: #00796b;
-      text-decoration: none;
-    }
-    .login-link a:hover {
-      text-decoration: underline;
-    }
-    @media (max-width: 480px) {
-      .form-container {
-        padding: 25px;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hostelio - User Login</title>
+    <style>
+      /* Your same CSS (unchanged) */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
       }
-    }
-  </style>
-
-  <!-- Firebase SDK v9+ -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import {
-      getAuth,
-      signInWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-    import {
-      getFirestore,
-      doc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAJGgVaOHfh3n2XY1IDFrZ1o3wjYMhP75M",
-      authDomain: "hostelio-aa3a5.firebaseapp.com",
-      projectId: "hostelio-aa3a5",
-      storageBucket: "hostelio-aa3a5.appspot.com",
-      messagingSenderId: "982239556216",
-      appId: "1:982239556216:web:0ad47094dc0ca63cc2f38d"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const form = document.querySelector("form");
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        try {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-
-          if (userDoc.exists() && userDoc.data().role === "user") {
-            alert("Login successful!");
-            window.location.href = "user_dashboard.html";
-          } else {
-            alert("Invalid role or unauthorized access.");
-          }
-        } catch (error) {
-          alert("Login failed: " + error.message);
+      body {
+        background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .form-container {
+        background-color: #ffffff;
+        padding: 30px 40px;
+        border-radius: 10px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #00796b;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #333;
+      }
+      input {
+        margin-bottom: 16px;
+        padding: 10px 12px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+      }
+      input:focus {
+        outline: none;
+        border-color: #00796b;
+        background-color: #fff;
+      }
+      button {
+        background-color: #00796b;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #004d40;
+      }
+      .login-link {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+      .login-link a {
+        color: #00796b;
+        text-decoration: none;
+      }
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+      @media (max-width: 480px) {
+        .form-container {
+          padding: 25px;
         }
-      });
-    });
-  </script>
-</head>
+      }
+    </style>
+  </head>
 
-<body>
-  <div class="form-container">
-    <h2>Hostelio - User Login</h2>
-    <form>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required />
+  <body>
+    <div class="form-container">
+      <h2>Hostelio - User Login</h2>
+      <form>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
 
-      <button type="submit">Login</button>
-    </form>
+        <button type="submit">Login</button>
+      </form>
 
-    <div class="login-link">
-      Don't have an account? <a href="user_signup.html">Create an account</a>
+      <div class="login-link">
+        Don't have an account? <a href="user_signup.html">Create an account</a>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
+  <script type="module" src="./js/UserLogin.js"></script>
 </html>
