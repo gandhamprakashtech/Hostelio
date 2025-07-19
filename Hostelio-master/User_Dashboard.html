@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard - Hostelio</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+        color: #333;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 40px 20px;
+        text-align: center;
+      }
+      h2 {
+        color: #00796b;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+      input[type="text"] {
+        padding: 10px;
+        width: 60%;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      button {
+        padding: 10px 20px;
+        margin-left: 10px;
+        font-size: 16px;
+        background-color: #00796b;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #004d40;
+      }
+      .logout {
+        margin-top: 30px;
+        color: red;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      .hostel-results {
+        margin-top: 30px;
+      }
+    </style>
+
+    <!-- Firebase SDK v9+ -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAJGgVaOHfh3n2XY1IDFrZ1o3wjYMhP75M",
+        authDomain: "hostelio-aa3a5.firebaseapp.com",
+        projectId: "hostelio-aa3a5",
+        storageBucket: "hostelio-aa3a5.appspot.com",
+        messagingSenderId: "982239556216",
+        appId: "1:982239556216:web:0ad47094dc0ca63cc2f38d",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      const usernameEl = document.getElementById("username");
+      const searchInput = document.getElementById("search");
+      const resultsContainer = document.getElementById("results");
+
+      // Check if user is logged in
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+            document.getElementById("username").textContent = data.name;
+          }
+        } else {
+          alert("You're not logged in!");
+          window.location.href = "user_login.html";
+        }
+      });
+
+      // Logout
+      document.getElementById("logout").addEventListener("click", async () => {
+        await signOut(auth);
+        window.location.href = "user_login.html";
+      });
+
+      // Placeholder search action
+      document.getElementById("searchBtn").addEventListener("click", () => {
+        const keyword = searchInput.value.trim();
+        if (keyword === "") return alert("Enter a search keyword!");
+
+        resultsContainer.innerHTML = `<p>Searching for <strong>${keyword}</strong>...</p>
+      <p><em>(In next steps, we'll fetch real hostel data from Firestore)</em></p>`;
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Welcome, <span id="username">User</span> 👋</h2>
+      <p>Explore nearby hostels or search for the ones you want!</p>
+
+      <input
+        type="text"
+        id="search"
+        placeholder="Search hostels by keyword..."
+      />
+      <button id="searchBtn">Search</button>
+
+      <div class="hostel-results" id="results">
+        <!-- Search results will appear here -->
+      </div>
+
+      <div class="logout" id="logout">🔓 Logout</div>
+    </div>
+  </body>
+</html>

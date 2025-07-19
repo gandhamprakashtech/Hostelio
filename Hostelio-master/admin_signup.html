@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hostelio - Admin Account Creation</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #fce4ec,
+          #e3f2fd
+        ); /* Soft light background */
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .form-container {
+        background-color: #ffffff;
+        padding: 30px 40px;
+        border-radius: 10px;
+        max-width: 550px;
+        width: 100%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #1565c0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      input,
+      select,
+      textarea {
+        margin-bottom: 16px;
+        padding: 10px 12px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #1565c0;
+        background-color: #fff;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      button {
+        background-color: #1565c0;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0d47a1;
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .login-link a {
+        color: #1565c0;
+        text-decoration: none;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 540px) {
+        .form-container {
+          padding: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Hostelio - Admin Account Creation</h2>
+      <form>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required />
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required />
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="hostelName">Hostel Name</label>
+        <input type="text" id="hostelName" name="hostelName" required />
+
+        <label for="hostelLocation">Hostel Location</label>
+        <textarea
+          id="hostelLocation"
+          name="hostelLocation"
+          rows="2"
+          required
+        ></textarea>
+
+        <label for="experience">Years of Experience</label>
+        <input
+          type="number"
+          id="experience"
+          name="experience"
+          min="0"
+          required
+        />
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required />
+
+        <label for="adminId">Admin ID</label>
+        <input type="text" id="adminId" name="adminId" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+        />
+
+        <button type="submit">Create Admin Account</button>
+      </form>
+
+      <div class="login-link">
+        Already an admin? <a href="#">signup here</a>
+      </div>
+    </div>
+  </body>
+  <!-- Add this at the end of the existing admin_signup.html -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJGgVaOHfh3n2XY1IDFrZ1o3wjYMhP75M",
+      authDomain: "hostelio-aa3a5.firebaseapp.com",
+      projectId: "hostelio-aa3a5",
+      storageBucket: "hostelio-aa3a5.appspot.com",
+      messagingSenderId: "982239556216",
+      appId: "1:982239556216:web:0ad47094dc0ca63cc2f38d",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const form = document.querySelector("form");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const fullName = document.getElementById("fullname").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const username = document.getElementById("username").value;
+        const hostelName = document.getElementById("hostelName").value;
+        const hostelLocation = document.getElementById("hostelLocation").value;
+        const experience = document.getElementById("experience").value;
+        const dob = document.getElementById("dob").value;
+        const adminId = document.getElementById("adminId").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
+
+        try {
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          const user = userCredential.user;
+
+          // Save admin details in Firestore
+          await setDoc(doc(db, "admins", user.uid), {
+            fullName,
+            email,
+            phone,
+            username,
+            hostelName,
+            hostelLocation,
+            experience,
+            dob,
+            adminId,
+            role: "admin",
+            createdAt: new Date().toISOString(),
+          });
+
+          alert("Admin account created successfully!");
+          form.reset();
+        } catch (error) {
+          console.error("Error during admin signup:", error);
+          alert("Signup failed: " + error.message);
+        }
+      });
+    });
+  </script>
+</html>

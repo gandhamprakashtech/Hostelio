@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hostelio Home</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Background */
+      .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: url("https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80")
+          no-repeat center center fixed;
+        background-size: cover;
+        z-index: -2;
+      }
+
+      /* Shine animation */
+      .shine-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.25) 50%,
+          rgba(255, 255, 255, 0.1) 100%
+        );
+        animation: shine 6s infinite linear;
+        z-index: -1;
+        opacity: 0.3;
+      }
+
+      @keyframes shine {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(6px);
+        z-index: 1000;
+        transition: background-color 0.4s;
+      }
+
+      .hostelio-tag {
+        font-size: 36px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+      }
+
+      /* Hero section */
+      .overlay {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 80px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 52px;
+        margin-bottom: 40px;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 15px 40px;
+        border-radius: 12px;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Buttons */
+      .blue-button {
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+      }
+
+      .button {
+        border: none;
+        padding: 14px 28px;
+        margin: 12px;
+        font-size: 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;
+        width: 220px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+      }
+
+      .button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        opacity: 0.95;
+      }
+
+      .button-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* Footer */
+      footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        text-align: center;
+        color: white;
+        padding: 12px;
+        font-size: 14px;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background"></div>
+    <div class="shine-overlay"></div>
+
+    <div class="navbar">
+      <div class="hostelio-tag">Hostelio</div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="admin_login.html">admin login</a>
+        <a href="user_login.html">user login</a>
+        <a href="user_signup.html">user_signup</a>
+        <a href="admin_signup.html">admin_signup</a>
+        <a href="explore.html">explore</a>
+      </div>
+    </div>
+
+    <div class="overlay">
+      <h1>Welcome to Hostelio</h1>
+      <div class="button-group">
+        <div class="row">
+          <button
+            class="button blue-button"
+            onclick="location.href='user_login.html'"
+          >
+            User Login
+          </button>
+          <button
+            class="button blue-button"
+            onclick="location.href='admin_login.html'"
+          >
+            Admin Login
+          </button>
+        </div>
+        <div class="row">
+          <button
+            class="button blue-button"
+            onclick="location.href='user_signup.html'"
+          >
+            User Sign Up
+          </button>
+          <button
+            class="button blue-button"
+            onclick="location.href='admin_signup.html'"
+          >
+            Admin Sign Up
+          </button>
+          <button
+            class="button blue-button"
+            onclick="location.href='admin_signup.html'"
+          >
+            Admin Sign Up
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>&copy; 2025 Hostelio. All rights reserved.</footer>
+  </body>
+</html>
