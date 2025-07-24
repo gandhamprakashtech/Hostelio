@@ -3,12 +3,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import {
   getAuth,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 import {
   getFirestore,
   doc,
   getDoc,
+  setDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -23,10 +26,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: "select_account",
+});
 
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
+  const googleBtn = document.getElementById("googleLoginBtn");
 
+  // Email/password login
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -51,6 +60,33 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       alert("Login failed: " + error.message);
+    }
+  });
+
+  // Google Sign-In login
+  googleBtn.addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
+
+      // If user document doesn't exist, create one
+      if (!userDoc.exists()) {
+        await setDoc(userRef, {
+          fullName: user.displayName || "",
+          email: user.email,
+          role: "user",
+          createdAt: new Date(),
+        });
+      }
+
+      alert("Google login successful!");
+      window.location.href = "user_dashboard.html";
+    } catch (error) {
+      console.error("Google login error:", error.message);
+      alert("Google login failed: " + error.message);
     }
   });
 });

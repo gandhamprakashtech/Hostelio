@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hostelio - User Login</title>
     <style>
-      /* Your same CSS (unchanged) */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -69,6 +68,13 @@
       button:hover {
         background-color: #004d40;
       }
+      .google-btn {
+        background-color: #4285f4;
+        margin-top: 10px;
+      }
+      .google-btn:hover {
+        background-color: #3367d6;
+      }
       .login-link {
         text-align: center;
         margin-top: 15px;
@@ -102,10 +108,24 @@
         <button type="submit">Login</button>
       </form>
 
+      <button class="google-btn" id="googleLoginBtn">
+        Continue with Google
+      </button>
+
       <div class="login-link">
         Don't have an account? <a href="user_signup.html">Create an account</a>
       </div>
     </div>
   </body>
+
+  <!-- Firebase Email/Password login -->
   <script type="module" src="./js/UserLogin.js"></script>
+
+  <!-- Google Login Hook -->
+  <script type="module">
+    import { continueWithGoogle } from "./js/google_auth.js";
+    document
+      .getElementById("googleLoginBtn")
+      .addEventListener("click", continueWithGoogle);
+  </script>
 </html>
